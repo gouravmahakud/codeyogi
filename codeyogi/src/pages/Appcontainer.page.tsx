@@ -4,19 +4,26 @@ import AuthHero from "../components/AuthHero";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import DashboardPage from "./Dashboard.page";
+import LecturePage from "./lecture.page";
 
 interface Props {}
 
 const AppContainer: FC<Props> = (props) => {
     return (
-      <div className="flex flex-row justify-between">
-        <Sidebar></Sidebar>
-            <Switch>
-          <Route path="/dashboard">
-            <DashboardPage></DashboardPage>
-          </Route>
-        </Switch>
-        {/* <AuthHero></AuthHero> */}
+      <div className="flex flex-row">
+            <div>
+                <Sidebar></Sidebar>
+        </div>
+        <div>
+          <Switch>
+            <Route path="/dashboard">
+              <DashboardPage></DashboardPage>
+            </Route>
+            <Route path="/lecture">
+              <LecturePage></LecturePage>
+            </Route>
+          </Switch>
+        </div>
       </div>
     );
 };

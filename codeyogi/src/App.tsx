@@ -16,10 +16,10 @@ function App() {
         <Route path="/" exact>
           <Redirect to="/login"></Redirect>
         </Route>
-        <Route path={["/login", "/signup"]}>
+        <Route path={["/auth/login", "/auth/signup"]} exact>
           <AuthPage></AuthPage>
         </Route>
-        <Route path="/app">
+        <Route path={["/dashboard", "/lecture"]}>
           <AppcontainerPage></AppcontainerPage>
         </Route>
       </Switch>

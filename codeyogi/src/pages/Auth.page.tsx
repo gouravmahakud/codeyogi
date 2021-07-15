@@ -10,10 +10,10 @@ const Auth: FC<Props> = (props) => {
     return (
       <div className="flex flex-row justify-between">
         <Switch>
-          <Route path="/login">
+          <Route path="/auth/login">
             <LoginPage></LoginPage>
           </Route>
-          <Route path="/signup">
+          <Route path="/auth/signup">
             <SignupPage></SignupPage>
           </Route>
         </Switch>

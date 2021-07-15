@@ -9,7 +9,7 @@ const Login: FC<Props> = (props) => {
     <div className="flex flex-row justify-between">
       <div>
         This is login Page. Don't have an account.{" "}
-        <Link to="/signup">
+        <Link to="/auth/signup">
           <span className="text-blue-500">Click Here</span>{" "}
         </Link>
         <Link to="/dashboard">
