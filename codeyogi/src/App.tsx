@@ -19,7 +19,7 @@ function App() {
         <Route path={["/auth/login", "/auth/signup"]} exact>
           <AuthPage></AuthPage>
         </Route>
-        <Route path={["/dashboard", "/lecture"]}>
+        <Route path={["/dashboard", "/lecture", "/Recordings"]}>
           <AppcontainerPage></AppcontainerPage>
         </Route>
       </Switch>
