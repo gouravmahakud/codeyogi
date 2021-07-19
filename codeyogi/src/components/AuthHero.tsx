@@ -10,9 +10,9 @@ const AuthHero: FC<Props> = (props) => {
     }, []);
 
     return (
-      <div className="h-screen w-1/2 bg-black text-white">
+      <div className="w-1/2 h-screen text-white bg-black">
         <svg
-          className="w-56 h-56 text-white text-center mx-auto my-auto"
+          className="w-56 h-56 mx-auto my-auto text-center text-white"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
