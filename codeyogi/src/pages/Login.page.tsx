@@ -1,42 +1,79 @@
-import React, {ChangeEvent, FocusEvent, FC, memo, useState } from "react";
+import React, {ChangeEvent, FocusEvent, FC, memo, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import AuthHero from "../components/AuthHero";
 import { HiLockClosed } from "react-icons/hi";
 import { FaSpinner } from "react-icons/fa";
+import * as yup from "yup";
+import { useFormik } from "formik";
 
 interface Props {}
 
 const Login: FC<Props> = (props) => {
   const [data, setData] = useState({ email: "", password: "" });
+  const [touched, setTouched] = useState({ email: false, password: false });
+  const [submitting, setSubmitting] = useState(false);
+  
+  
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // const nameOfChangedInput = event.target.name;
     setData({ ...data, [event.target.name]: event.target.value });
   }
-  const [touched, setTouched] = useState({ email: false, password: false });
+
+  //useState is also a hook, it attaches the data with component ki lifecycle
+  //data change hua toh lifecycle mei effect pada
+  
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     // const nameOfBlurredInput = event.target.name;
     setTouched({ ...touched, [event.target.name]: true });
   };
 
-  const [submitting, setSubmitting] = useState(false);
   const history = useHistory();
+
+  useEffect(() => {
+    console.log("Component data change", data);
+    return () => {
+      console.log("Component umounted", data);
+    }
+  }, [data])
+  
 
   let emailError = "";
   let passwordError = "";
   
-  if (!data.email) {
-    emailError = "Email address is required";
-  }
-  else if(!data.email.endsWith("@gmail.com")) {
-    emailError = "Please enter a valid email address";
+  // if (!data.email) {
+  //   emailError = "Email address is required";
+  // }
+  // else if(!data.email.endsWith("@gmail.com")) {
+  //   emailError = "Please enter a valid email address";
+  // }
+  
+  // if (!data.password) {
+  //   passwordError = "Password is required";
+  // } else if (data.password.length < 8) {
+  //   passwordError = "Password should be atleast 8 character";
+  // }
+  
+  const formValidator = yup.object().shape({
+    email: yup.string().required().email(),
+    password: yup.string().required().min(8),
+  });
+
+  try {
+    formValidator.validateSync(data);
+  } catch (e) {
+    console.log(e);
   }
   
-  if (!data.password) {
-    passwordError = "Password is required";
-  } else if (data.password.length < 8) {
-    passwordError = "Password should be atleast 8 character";
-  }
-
+  const myForm = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: () => {
+      console.log("form submitting", data);
+    }
+  }); 
+  
   return (
     <div className="w-1/2">
       <div className="flex items-center justify-center min-h-screen px-4 py-12 bg-gray-50 sm:px-6 lg:px-8">
@@ -62,22 +99,7 @@ const Login: FC<Props> = (props) => {
           </div>
           <form
             className="mt-8 space-y-6"
-            action="#"
-            method="POST"
-            onSubmit={(event) => {
-              if (emailError || passwordError)
-              {
-                return;
-              }
-              
-              setSubmitting(true);
-              setTimeout(() => {
-                history.push("/dashboard");
-              }, 5000);
-              
-              console.log(data);
-              event.preventDefault();
-            }}
+            onSubmit={myForm.handleSubmit}
           >
             <input type="hidden" name="remember" value="true" />
             <div className="shadow-sm hover:rounded-md">
@@ -89,7 +111,7 @@ const Login: FC<Props> = (props) => {
                   type="email"
                   autoComplete="email"
                   value={data.email}
-                  onChange={handleChange}
+                  onChange={myForm.handleChange}
                   onBlur={handleBlur}
                   required
                   className="relative block w-full px-3 py-2 mb-4 text-gray-900 placeholder-gray-500 border-b-2 border-gray-300 rounded-none appearance-none rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
