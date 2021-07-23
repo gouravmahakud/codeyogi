@@ -9,70 +9,28 @@ import { useFormik } from "formik";
 interface Props {}
 
 const Login: FC<Props> = (props) => {
-  const [data, setData] = useState({ email: "", password: "" });
-  const [touched, setTouched] = useState({ email: false, password: false });
-  const [submitting, setSubmitting] = useState(false);
   
-  
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // const nameOfChangedInput = event.target.name;
-    setData({ ...data, [event.target.name]: event.target.value });
-  }
-
-  //useState is also a hook, it attaches the data with component ki lifecycle
-  //data change hua toh lifecycle mei effect pada
-  
-  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    // const nameOfBlurredInput = event.target.name;
-    setTouched({ ...touched, [event.target.name]: true });
-  };
-
-  const history = useHistory();
-
-  useEffect(() => {
-    console.log("Component data change", data);
-    return () => {
-      console.log("Component umounted", data);
-    }
-  }, [data])
-  
-
-  let emailError = "";
-  let passwordError = "";
-  
-  // if (!data.email) {
-  //   emailError = "Email address is required";
-  // }
-  // else if(!data.email.endsWith("@gmail.com")) {
-  //   emailError = "Please enter a valid email address";
-  // }
-  
-  // if (!data.password) {
-  //   passwordError = "Password is required";
-  // } else if (data.password.length < 8) {
-  //   passwordError = "Password should be atleast 8 character";
-  // }
-  
-  const formValidator = yup.object().shape({
-    email: yup.string().required().email(),
-    password: yup.string().required().min(8),
-  });
-
-  try {
-    formValidator.validateSync(data);
-  } catch (e) {
-    console.log(e);
-  }
-  
-  const myForm = useFormik({
+  const {handleSubmit, handleChange, handleBlur, values, touched, isSubmitting, errors} = useFormik({
     initialValues: {
       email: "",
       password: "",
-    },
-    onSubmit: () => {
+    },  
+    validationSchema: yup.object().shape(
+      {
+        email: yup.string().required().email(),
+        password: yup.string().required().min(8, ({ min }) => `Atleast ${min} characters!!!!!!!!`),
+      }),
+    onSubmit: (data) => {
       console.log("form submitting", data);
+      setTimeout(() => {
+        // setSubmitting(false);
+        history.push("/dashboard");
+      }, 5000)
     }
+    
   }); 
+  
+  const history = useHistory();
   
   return (
     <div className="w-1/2">
@@ -99,7 +57,7 @@ const Login: FC<Props> = (props) => {
           </div>
           <form
             className="mt-8 space-y-6"
-            onSubmit={myForm.handleSubmit}
+            onSubmit={handleSubmit}
           >
             <input type="hidden" name="remember" value="true" />
             <div className="shadow-sm hover:rounded-md">
@@ -110,8 +68,8 @@ const Login: FC<Props> = (props) => {
                   name="email"
                   type="email"
                   autoComplete="email"
-                  value={data.email}
-                  onChange={myForm.handleChange}
+                  value={values.email}
+                  onChange={handleChange}
                   onBlur={handleBlur}
                   required
                   className="relative block w-full px-3 py-2 mb-4 text-gray-900 placeholder-gray-500 border-b-2 border-gray-300 rounded-none appearance-none rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -119,16 +77,16 @@ const Login: FC<Props> = (props) => {
                 />
               </div>
               {touched.email && (
-                <div className="text-red-500">{emailError}</div>
+                <div className="text-red-500">{errors.email}</div>
               )}
               <div>
                 <label htmlFor="password" className="sr-only">Password</label>
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type="password" 
                   autoComplete="current-password"
-                  value={data.password}
+                  value={values.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   required
@@ -137,7 +95,7 @@ const Login: FC<Props> = (props) => {
                 />
               </div>
               {touched.password && (
-                <div className="text-red-500">{passwordError}</div>
+                <div className="text-red-500">{errors.password}</div>
               )}
             </div>
 
@@ -174,7 +132,7 @@ const Login: FC<Props> = (props) => {
                 </span>
                 Sign in
               </button>
-              {submitting && <FaSpinner className="mt-5 animate-spin"></FaSpinner>}
+              {isSubmitting && <FaSpinner className="mt-5 animate-spin"></FaSpinner>}
             </div>
           </form>
         </div>
