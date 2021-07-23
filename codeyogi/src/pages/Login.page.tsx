@@ -1,16 +1,16 @@
-import React, {ChangeEvent, FocusEvent, FC, memo, useState, useEffect } from "react";
+import React, {ChangeEvent, FocusEvent, FC, memo, useState, useEffect, InputHTMLAttributes } from "react";
 import { Link, useHistory } from "react-router-dom";
-import AuthHero from "../components/AuthHero";
+import Input from "../components/input";
 import { HiLockClosed } from "react-icons/hi";
 import { FaSpinner } from "react-icons/fa";
 import * as yup from "yup";
 import { useFormik } from "formik";
 
-interface Props {}
+interface Props{}
 
 const Login: FC<Props> = (props) => {
   
-  const {handleSubmit, handleChange, handleBlur, values, touched, isSubmitting, errors} = useFormik({
+  const {handleSubmit ,getFieldProps ,values, touched, isSubmitting, errors} = useFormik({
     initialValues: {
       email: "",
       password: "",
@@ -55,48 +55,29 @@ const Login: FC<Props> = (props) => {
               </Link>
             </p>
           </div>
-          <form
-            className="mt-8 space-y-6"
-            onSubmit={handleSubmit}
-          >
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <input type="hidden" name="remember" value="true" />
             <div className="shadow-sm hover:rounded-md">
-              <div>
-                {/* <label For="email-address" className="sr-only">Email address</label> */}
-                <input
-                  id="email-address"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  required
-                  className="relative block w-full px-3 py-2 mb-4 text-gray-900 placeholder-gray-500 border-b-2 border-gray-300 rounded-none appearance-none rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Email address"
-                />
-              </div>
-              {touched.email && (
-                <div className="text-red-500">{errors.email}</div>
-              )}
-              <div>
-                <label htmlFor="password" className="sr-only">Password</label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password" 
-                  autoComplete="current-password"
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  required
-                  className="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border-b-2 border-gray-300 rounded-none appearance-none rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Password"
-                />
-              </div>
-              {touched.password && (
-                <div className="text-red-500">{errors.password}</div>
-              )}
+              <Input
+                touched={touched.email}
+                error={errors.email}
+                autoComplete="current-email"
+                id="email"
+                required
+                type="email"
+                placeholder="E-mail"
+                {...getFieldProps("email")}
+              />
+              <Input
+                touched={touched.password}
+                error={errors.password}
+                autoComplete="current-password"
+                id="password"
+                required
+                type="password"
+                placeholder="Password"
+                {...getFieldProps("password")}
+              />
             </div>
 
             <div className="flex items-center justify-between">
@@ -107,9 +88,12 @@ const Login: FC<Props> = (props) => {
                   type="checkbox"
                   className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
                 />
-                <label htmlFor="remember-me" className="block ml-2 text-sm text-gray-900">
-            Remember me
-          </label>
+                <label
+                  htmlFor="remember-me"
+                  className="block ml-2 text-sm text-gray-900"
+                >
+                  Remember me
+                </label>
               </div>
 
               <div className="text-sm">
@@ -132,7 +116,9 @@ const Login: FC<Props> = (props) => {
                 </span>
                 Sign in
               </button>
-              {isSubmitting && <FaSpinner className="mt-5 animate-spin"></FaSpinner>}
+              {isSubmitting && (
+                <FaSpinner className="mt-5 animate-spin"></FaSpinner>
+              )}
             </div>
           </form>
         </div>
