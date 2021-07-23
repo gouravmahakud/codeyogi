@@ -1,4 +1,12 @@
-import React, {ChangeEvent, FocusEvent, FC, memo, useState, useEffect, InputHTMLAttributes } from "react";
+import React, {
+  ChangeEvent,
+  FocusEvent,
+  FC,
+  memo,
+  useState,
+  useEffect,
+  InputHTMLAttributes,
+} from "react";
 import { Link, useHistory } from "react-router-dom";
 import Input from "../components/input";
 import { HiLockClosed } from "react-icons/hi";
@@ -6,32 +14,40 @@ import { FaSpinner } from "react-icons/fa";
 import * as yup from "yup";
 import { useFormik } from "formik";
 
-interface Props{}
+interface Props {}
 
 const Login: FC<Props> = (props) => {
-  
-  const {handleSubmit ,getFieldProps ,values, touched, isSubmitting, errors} = useFormik({
+  const {
+    handleSubmit,
+    getFieldProps,
+    values,
+    isValid,
+    touched,
+    isSubmitting,
+    errors,
+  } = useFormik({
     initialValues: {
       email: "",
       password: "",
-    },  
-    validationSchema: yup.object().shape(
-      {
-        email: yup.string().required().email(),
-        password: yup.string().required().min(8, ({ min }) => `Atleast ${min} characters!!!!!!!!`),
-      }),
+    },
+    validationSchema: yup.object().required().shape({
+      email: yup.string().required().email(),
+      password: yup
+        .string()
+        .required()
+        .min(8, ({ min }) => `Atleast ${min} characters!!!!!!!!`),
+    }),
     onSubmit: (data) => {
       console.log("form submitting", data);
       setTimeout(() => {
         // setSubmitting(false);
         history.push("/dashboard");
-      }, 5000)
-    }
-    
-  }); 
-  
+      }, 5000);
+    },
+  });
+
   const history = useHistory();
-  
+
   return (
     <div className="w-1/2">
       <div className="flex items-center justify-center min-h-screen px-4 py-12 bg-gray-50 sm:px-6 lg:px-8">
@@ -109,6 +125,7 @@ const Login: FC<Props> = (props) => {
             <div>
               <button
                 type="submit"
+                disabled={!isValid}
                 className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md group hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
