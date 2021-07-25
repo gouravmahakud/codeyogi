@@ -8,11 +8,12 @@ import React, {
   InputHTMLAttributes,
 } from "react";
 import { Link, useHistory } from "react-router-dom";
-import Input from "../components/input";
+import Input from "../components/Input/Input";
 import { HiLockClosed } from "react-icons/hi";
 import { FaSpinner } from "react-icons/fa";
 import * as yup from "yup";
 import { useFormik } from "formik";
+import Button from "../components/Button/Button";
 
 interface Props {}
 
@@ -123,16 +124,7 @@ const Login: FC<Props> = (props) => {
             </div>
 
             <div>
-              <button
-                type="submit"
-                disabled={!isValid}
-                className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md group hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <HiLockClosed></HiLockClosed>
-                </span>
-                Sign in
-              </button>
+              <Button>Sign in</Button>
               {isSubmitting && (
                 <FaSpinner className="mt-5 animate-spin"></FaSpinner>
               )}
