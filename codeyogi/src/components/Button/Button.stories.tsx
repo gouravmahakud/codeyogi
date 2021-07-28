@@ -2,6 +2,7 @@ import Button from "./Button";
 import "../../index.css";
 import { HiLockClosed, HiLogin } from "react-icons/hi";
 const icons = { HiLockClosed, HiLogin };
+
 export default {
   title: "Button",
     component: Button,

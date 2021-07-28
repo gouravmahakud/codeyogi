@@ -3,7 +3,7 @@ import { IconType } from "react-icons";
 import { HiLockClosed } from "react-icons/hi";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  theme?: "primary" | "secondary";
+  theme?: "primary" | "secondary"; 
   children: string;
     type?: "submit" | "reset" | "button" | undefined;
     Icon?: IconType;
