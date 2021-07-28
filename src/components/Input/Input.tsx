@@ -1,5 +1,5 @@
 import { FC, InputHTMLAttributes, memo } from "react";
-import { FaLastfmSquare } from "react-icons/fa";
+
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   touched?: boolean;
@@ -14,7 +14,7 @@ const Input: FC<Props> = ({
   className,
   ...rest
 }) => {
-  const errorClasses = error ? " ": "";
+  // const errorClasses = error ? " ": "";
   return (
     <>
       <div>

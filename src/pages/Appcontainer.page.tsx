@@ -1,7 +1,7 @@
 import { FC, memo } from "react";
-import AuthHero from "../components/AuthHero";
 
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+
+import { Route, Switch } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import DashboardPage from "./Dashboard.page";
 import LecturePage from "./lecture.page";

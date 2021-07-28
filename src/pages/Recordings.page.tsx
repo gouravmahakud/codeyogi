@@ -1,5 +1,5 @@
 import { FC, memo } from "react";
-import Sidebar from "../components/Sidebar";
+
 
 interface Props {}
 

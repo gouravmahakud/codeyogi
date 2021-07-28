@@ -1,15 +1,15 @@
 import React, {
-  ChangeEvent,
-  FocusEvent,
+  
+  
   FC,
   memo,
-  useState,
-  useEffect,
-  InputHTMLAttributes,
+  
+ 
+  
 } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Input from "../components/Input/Input";
-import { HiLockClosed } from "react-icons/hi";
+
 import { FaSpinner } from "react-icons/fa";
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -21,8 +21,7 @@ const Login: FC<Props> = (props) => {
   const {
     handleSubmit,
     getFieldProps,
-    values,
-    isValid,
+
     touched,
     isSubmitting,
     errors,

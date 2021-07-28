@@ -1,6 +1,6 @@
-import { ButtonHTMLAttributes, Children, FC, memo } from "react";
+import { ButtonHTMLAttributes, FC, memo } from "react";
 import { IconType } from "react-icons";
-import { HiLockClosed } from "react-icons/hi";
+
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   theme?: "primary" | "secondary"; 
